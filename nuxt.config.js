@@ -8,7 +8,7 @@ export default {
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "nuxt2-tailwind3-boilerplate",
+    title: "Plagarism Checker",
     htmlAttrs: {
       lang: "en",
     },
@@ -25,7 +25,14 @@ export default {
   css: ["@/assets/css/main.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ["~/plugins/bootstrap-vue.client"],
+  bootstrapVue: {
+    icons: true,
+    bootstrapCSS: true, // here you can disable automatic bootstrapCSS in case you are loading it yourself using sass
+    bootstrapVueCSS: true, // CSS that is specific to bootstrapVue components can also be disabled. That way you won't load css for modules that you don't use
+    componentPlugins: [], // Here you can specify which components you want to load and use
+    directivePlugins: [], // Here you can specify which directives you want to load and use. Look into official docs to get a list of what's available
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
