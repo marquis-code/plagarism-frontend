@@ -24,12 +24,12 @@
             and to prevent academic or professional misconduct.
           </p>
           <div class="mt-4 md:mt-8">
-            <a
-              href="#"
-              class="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition focus:outline-none focus:ring"
+            <nuxt-link
+              to="/login"
+              class="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition focus:outline-none focus:ring no-underline"
             >
               Start checking Plagiarism today
-            </a>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -92,12 +92,12 @@
           </ul>
 
           <div class="mt-4 md:mt-8">
-            <a
-              href="#"
-              class="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition focus:outline-none focus:ring"
+            <nuxt-link
+              to="/login"
+              class="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition focus:outline-none focus:ring no-underline"
             >
               Start checking Plagiarism today
-            </a>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -126,12 +126,12 @@
           </p>
 
           <div class="mt-4 md:mt-8">
-            <a
-              href="#"
-              class="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition focus:outline-none focus:ring"
+            <nuxt-link
+              to="/login"
+              class="inline-block rounded bg-black px-12 py-3 text-sm font-medium text-white transition focus:outline-none focus:ring no-underline"
             >
               Start checking Plagiarism today
-            </a>
+            </nuxt-link>
           </div>
         </div>
       </div>

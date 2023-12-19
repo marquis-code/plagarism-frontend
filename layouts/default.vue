@@ -2,7 +2,7 @@
   <main>
     <NavigationBar />
     <Nuxt />
-    <footer-section />
+    <footer-section class="mt-10" />
     <CookieAlert @click="closeModal" :isOpen="isOpen" />
   </main>
 </template>

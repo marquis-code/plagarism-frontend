@@ -32,8 +32,10 @@
             Welcome to Plagiarism checker
           </h2>
 
-          <p class="mt-4 leading-relaxed text-gray-600">
-          A valuable tool to review and verify the authenticity of their writing, helping them understand proper citation practices and avoid unintentional plagiarism.
+          <p class="mt-4 leading-relaxed text-gray-600 font-semibold">
+            A valuable tool to review and verify the authenticity of their
+            writing, helping them understand proper citation practices and avoid
+            unintentional plagiarism.
           </p>
         </div>
       </section>
@@ -67,8 +69,10 @@
               Welcome to Plagiarism checker
             </h1>
 
-            <p class="mt-4 leading-relaxed text-gray-600">
-              A valuable tool to review and verify the authenticity of their writing, helping them understand proper citation practices and avoid unintentional plagiarism.
+            <p class="mt-4 leading-relaxed text-gray-600 font-semibold">
+              A valuable tool to review and verify the authenticity of their
+              writing, helping them understand proper citation practices and
+              avoid unintentional plagiarism.
             </p>
           </div>
 
@@ -81,22 +85,26 @@
             </div>
             <div class="col-span-6 w-full">
               <label
-                for="Email"
+                for="matric"
                 class="block text-sm font-medium text-gray-700"
               >
-                Email
+                matric
               </label>
 
               <input
-                id="Email"
-                v-model="form.email"
-                type="email"
-                name="email"
+                id="matric"
+                v-model="form.matric"
+                @input="validateInput"
+                type="tel"
+                name="matric"
                 class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
               />
+              <small v-if="!isValid" class="text-red-500 text-sm"
+                >Please enter a valid matric number</small
+              >
             </div>
 
-            <div class="col-span-6 w-full">
+            <div class="col-span-6 w-full relative">
               <label
                 for="Password"
                 class="block text-sm font-medium text-gray-700"
@@ -110,6 +118,12 @@
                 type="password"
                 name="password"
                 class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
+              />
+              <img
+                @click="togglePassword"
+                :src="require(`~/assets/icons/${eye}`)"
+                alt=""
+                class="absolute right-6 top-10 h-6 w-6 cursor-pointer"
               />
             </div>
             <div class="w-full">
@@ -142,25 +156,69 @@ export default {
   data() {
     return {
       processing: false,
+      isValid: false,
+      registrationNumberPattern: /^U\d{2}\/[A-Z]+\/[A-Z]+\/\d{3}$/,
       form: {
-        email: "",
+        matric: "",
         password: "",
       },
     };
   },
   computed: {
     isFormEmpty() {
-      return !!(this.form.email && this.form.password);
+      return !!(this.form.matric && this.form.password && this.isValid);
+    },
+    eye() {
+      return this.showPassword ? "eye-open.svg" : "eye-close.svg";
     },
   },
   methods: {
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
     handleLogin() {
       this.processing = true;
-      setTimeout(() => {
-        this.$toastr.s("Login was successful");
-        this.$router.push("/");
-        this.processing = false;
-      }, 3000);
+      if (this.registrationNumberPattern.test(this.form.matric)) {
+        let payload = {
+          password: this.form.password,
+          matric: this.form.matric,
+        };
+        this.$axios
+          .post(
+            "https://plagarism-backend.onrender.com/api/auth/login",
+            payload
+          )
+          .then((resp) => {
+            console.log(resp.data.data);
+            localStorage.setItem(
+              "user",
+              `${JSON.stringify(resp?.data?.data)}`
+            );
+            this.$toastr.s("Login was successful");
+            this.$router.push("/dashboard");
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log(error.response, "ghjk");
+              this.$toastr.e(error.response.data.errorMessage);
+              this.processing = false;
+            } else if (error.request) {
+              console.log(error.request);
+              this.processing = false;
+            } else {
+              console.log("Error", error.message);
+              this.processing = false;
+            }
+          })
+          .finally(() => {
+            this.processing = false;
+          });
+      } else {
+        this.$toastr.e("Please enter a valid matric number");
+      }
+    },
+    validateInput() {
+      this.isValid = this.registrationNumberPattern.test(this.form.matric);
     },
   },
 };

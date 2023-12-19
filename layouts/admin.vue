@@ -1,5 +1,5 @@
 <template>
-  <main class="app flex">
+  <main class="flex">
     <admin-sidebar></admin-sidebar>
     <div class="w-full">
       <Nuxt />

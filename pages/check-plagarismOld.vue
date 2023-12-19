@@ -79,21 +79,125 @@
                 from your computer
               </p>
             </div>
-            <input type="file" class="hidden" />
+            <input
+              type="file"
+              class="hidden"
+              @change="handleFileChange"
+              accept=".pdf, .docx"
+            />
           </label>
         </div>
+      </div>
+      <div v-if="fileContent">
+        <h2>File Content:</h2>
+        <pre>{{ fileContent }}</pre>
       </div>
       <div class="w-full">
         <button class="bg-black text-white text-sm py-3 w-full rounded-full">
           Proceed
         </button>
       </div>
+      <!-- <div v-if="error">
+        <p>Error: {{ error }}</p>
+      </div> -->
     </div>
   </main>
 </template>
 
 <script>
-export default {};
+// import PDFParser from "pdf-parse";
+// import mammoth from "mammoth";
+export default {
+  data() {
+    return {
+      fileContent: null
+    };
+  },
+  methods: {
+    handleFileChange(event) {
+      const file = event.target.files[0];
+
+      if (file) {
+        this.readFileContents(file);
+      }
+    },
+    readFileContents(file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.fileContent = reader.result;
+      };
+
+      reader.onerror = (error) => {
+        console.error("Error reading file:", error);
+      };
+
+      reader.readAsText(file);
+    },
+
+    // async handleFileChange(event) {
+    //   const file = event.target.files[0];
+
+    //   if (!file) {
+    //     return;
+    //   }
+
+    //   try {
+    //     const fileType = this.getFileType(file);
+
+    //     if (fileType === 'pdf') {
+    //       const text = await this.extractTextFromPDF(file);
+    //       this.setExtractedText(text);
+    //     } else if (fileType === 'docx') {
+    //       const text = await this.extractTextFromDOCX(file);
+    //       this.setExtractedText(text);
+    //     } else {
+    //       throw new Error('Unsupported file type');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //     this.setError('Failed to extract text from the file.');
+    //     this.setExtractedText(null);
+    //   }
+    // },
+    // getFileType(file) {
+    //   const fileName = file.name.toLowerCase();
+    //   if (fileName.endsWith('.pdf')) {
+    //     return 'pdf';
+    //   } else if (fileName.endsWith('.docx')) {
+    //     return 'docx';
+    //   } else {
+    //     throw new Error('Unsupported file type');
+    //   }
+    // },
+    // async extractTextFromPDF(file) {
+    //   const data = await PDFParser(new Uint8Array(await this.readFileAsArrayBuffer(file)));
+    //   return data.text;
+    // },
+    // async extractTextFromDOCX(file) {
+    //   const result = await mammoth.extractRawText({ arrayBuffer: new Uint8Array(await this.readFileAsArrayBuffer(file)) });
+    //   return result.value;
+    // },
+    // readFileAsArrayBuffer(file) {
+    //   return new Promise((resolve, reject) => {
+    //     const reader = new FileReader();
+
+    //     reader.onload = () => resolve(reader.result);
+    //     reader.onerror = () => reject(new Error('Error reading file'));
+
+    //     reader.readAsArrayBuffer(file);
+    //   });
+    // },
+    // setExtractedText(text) {
+    //   this.extractedText = text;
+    //   this.error = null;
+    // },
+    // setError(errorMessage) {
+    //   this.error = errorMessage;
+    //   this.extractedText = null;
+    // },
+  },
+};
 </script>
 
 <style></style>

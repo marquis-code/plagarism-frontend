@@ -18,14 +18,31 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        href: "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css",
+      },
+      {
+        href: "https://horizon-tailwind-react-git-tailwind-components-horizon-ui.vercel.app/static/css/main.ad49aa9b.css",
+      },
+    ],
+    script: [
+      {
+        src: "https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js",
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["@/assets/css/main.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/bootstrap-vue.client"],
+  plugins: [
+    "~/plugins/bootstrap-vue.client",
+    { src: "~/plugins/toastr.js", mode: "client" },
+    { src: "~/plugins/sweet-alert.js", mode: "client" },
+  ],
   bootstrapVue: {
     icons: true,
     bootstrapCSS: true, // here you can disable automatic bootstrapCSS in case you are loading it yourself using sass
@@ -44,7 +61,15 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+    "@nuxtjs/axios",
+    "@nuxtjs/auth",
+  ],
+  axios: {
+    proxy: true,
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: "https://plagarism-backend.onrender.com/api",
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -53,6 +78,11 @@ export default {
         tailwindcss: {},
         autoprefixer: {},
       },
+    },
+    extend(config, { isDev, isClient }) {
+      config.node = {
+        fs: "empty",
+      };
     },
   },
 };

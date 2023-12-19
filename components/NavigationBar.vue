@@ -18,8 +18,8 @@
             <ul class="flex items-center gap-6 text-sm">
               <li>
                 <nuxt-link
-                  class="text-gray-500 transition hover:text-gray-500/75"
-                  to="/check-plagarism"
+                  class="text-gray-500 transition hover:text-gray-500/75 no-underline"
+                  to="/login"
                 >
                   About
                 </nuxt-link>
@@ -27,7 +27,7 @@
 
               <li>
                 <a
-                  class="text-gray-500 transition hover:text-gray-500/75"
+                  class="text-gray-500 transition hover:text-gray-500/75 no-underline"
                   href="/"
                 >
                   Careers
@@ -36,7 +36,7 @@
 
               <li>
                 <a
-                  class="text-gray-500 transition hover:text-gray-500/75"
+                  class="text-gray-500 transition hover:text-gray-500/75 no-underline"
                   href="/"
                 >
                   History
@@ -45,7 +45,7 @@
 
               <li>
                 <a
-                  class="text-gray-500 transition hover:text-gray-500/75"
+                  class="text-gray-500 transition hover:text-gray-500/75 no-underline"
                   href="/"
                 >
                   Services
@@ -54,7 +54,7 @@
 
               <li>
                 <a
-                  class="text-gray-500 transition hover:text-gray-500/75"
+                  class="text-gray-500 transition hover:text-gray-500/75 no-underline"
                   href="/"
                 >
                   Projects
@@ -63,7 +63,7 @@
 
               <li>
                 <a
-                  class="text-gray-500 transition hover:text-gray-500/75"
+                  class="text-gray-500 transition hover:text-gray-500/75 no-underline"
                   href="/"
                 >
                   Blog
@@ -74,7 +74,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-          <div class="hidden sm:flex sm:gap-4">
+          <div class="hidden sm:flex sm:gap-4" v-if="!isLoggedIn">
             <nuxt-link
               class="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
               to="/login"
@@ -90,6 +90,12 @@
                 Register
               </nuxt-link>
             </div>
+          </div>
+          <div class="hidden sm:gap-4 lg:flex items-center gap-x-3" v-else>
+            <img src="@/assets/icons/avatar.svg" alt="" class="h-10 w-10" />
+            <p class="text-gray-500 font-medium text-sm mt-3">
+              {{ user?.username ?? "" }}
+            </p>
           </div>
 
           <div class="block md:hidden">
@@ -152,7 +158,7 @@
               >
                 <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline font-bold hover:text-white"
-                  to="/check-plagarism"
+                  to="/login"
                 >
                   Projects
                 </nuxt-link>
@@ -162,7 +168,7 @@
               >
                 <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline font-bold hover:text-white"
-                  to="/check-plagarism"
+                  to="/login"
                 >
                   History
                 </nuxt-link>
@@ -188,6 +194,15 @@
                   Login
                 </nuxt-link>
               </li>
+              <!-- <div
+                class="hidden sm:gap-4 lg:flex items-center gap-x-3"
+                v-if="isLoggedIn"
+              >
+                <img src="@/assets/icons/avatar.svg" alt="" class="h-10 w-10" />
+                <p class="text-gray-500 font-medium text-sm mt-3">
+                  {{ user?.username ?? "" }}
+                </p>
+              </div> -->
             </ul>
           </nav>
         </div>
@@ -195,3 +210,21 @@
     </b-sidebar>
   </header>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      user: {},
+    };
+  },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem("user")) ?? {};
+  },
+  computed: {
+    isLoggedIn() {
+      return Object.keys(this.user).length > 0;
+    },
+  },
+};
+</script>
