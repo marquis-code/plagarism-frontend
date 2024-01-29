@@ -1,6 +1,6 @@
 <template>
   <main
-    class="lg:flex justify-between items-start gap-x-10 space-y-10 md:space-y-0 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 lg:mt-32 mb-10 pb-20 lg:pb-0 md:mb-0"
+    class="lg:flex justify-between items-start gap-x-10 space-y-10 md:space-y-0 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 lg:mt-32 lg:mb-10 pb-20 lg:pb-0 md:mb-0"
   >
     <div class="md:w-6/12 space-y-6 lg:space-y-10">
       <img
@@ -17,12 +17,12 @@
       </div>
       <div>
         <h1 class="text-4xl lg:text-6xl font-bold text-gray-50 max-w-lg">
-          Plagiarism Checker
+          Plagvic.io
         </h1>
       </div>
       <div>
         <p class="text-sm lg:text-lg text-gray-50 max-w-lg">
-          Plagiarism Checker detects Plagiarism in your text, checks grammar and
+          Plagvic.io detects Plagiarism in your text, checks grammar and
           checks for other writing issues
         </p>
       </div>
@@ -69,57 +69,71 @@
           v-model="form.body"
           cols="6"
           rows="6"
-          class="w-full bg-gray-50 resize-none rounded-md px-4 py-3 outline-none border border-gray-200"
+          class="w-full bg-gray-50 resize-none rounded-md px-3 py-3 outline-none border border-gray-200"
         />
       </div>
       <div class="w-full text-white">
         <button
-          :disabled="!isFormEmpty"
-          :class="[!isFormEmpty ? 'cursor-not-allowed opacity-25' : '']"
-          class="bg-black disabled:cursor-not-allowed disabled:opacity-25 text-white text-sm py-3 w-full rounded-md"
+          :disabled="!isFormFilled || processing"
+          :class="[
+            !isFormFilled || processing ? 'cursor-not-allowed opacity-25 bg-green-600' : 'bg-green-600',
+          ]"
+          class="disabled:cursor-not-allowed disabled:opacity-25 text-white text-sm py-3 w-full rounded-md"
         >
           {{ processing ? "processing..." : " Proceed" }}
         </button>
       </div>
     </form>
-    <div v-else class="md:w-6/12 space-y-8 rounded-md bg-white shadow-md p-6">
+    <div v-else class="md:w-6/12 rounded-md bg-white shadow-md p-6 space-y-3">
       <h1 class="font-bold text-gray-800 text-lg">Plagarism Result preview</h1>
-      <div class="text-gray-800 space-y-1">
-        <p class="font-bold text-gray-900">Title:</p>
-        <p>{{ form.title }}</p>
-      </div>
-      <div class="text-gray-800 space-y-1">
-        <p class="font-bold text-gray-900">Author:</p>
-        <p>{{ form.author }}</p>
-      </div>
-      <div class="text-sm text-gray-800 space-y-1">
-        <p class="font-bold text-gray-900">Content:</p>
-        <p>{{ form.body }}</p>
-      </div>
-      <div v-for="(itm, idx) in plagReport.sources" :key="idx">
-        <div class="space-y-1">
-          <p class="font-bold text-gray-900">Content Url:</p>
-          <p>{{ itm?.link }}</p>
+      <div class="space-y-3">
+        <div class="text-gray-800 space-y-1">
+          <span class="font-bold text-gray-900">Title:</span><br />
+          <span class="py-0 my-0 text-sm">{{ form.title }}</span>
+        </div>
+        <div class="text-gray-800 space-y-1">
+          <span class="font-bold text-gray-900">Author:</span><br />
+          <span class="text-sm">{{ form.author }}</span>
+        </div>
+        <div class="text-sm text-gray-800 space-y-1">
+          <span class="font-bold text-gray-900">Content:</span><br />
+          <span class="text-sm">{{ form.body.length > 80 ? `${form.body.slice(0, 100)}...` : form.body }}...</span>
         </div>
         <div class="space-y-1">
-          <p class="font-bold text-gray-900">Content Url:</p>
-          <p>{{ itm?.percent }}%</p>
+          <div v-for="(itm, idx) in plagReport.sources" :key="idx">
+            <div class="space-y-1">
+              <span class="font-bold text-gray-900">Content Source Url:</span><br />
+              <span
+                ><a
+                  class="text-sm text-blue-600 underline font-medium max-w-sm"
+                  :href="itm?.link"
+                  >{{ itm?.link }}</a
+                ></span
+              >
+            </div>
+            <div class="space-y-1">
+              <span class="font-bold text-gray-900">
+                Source Plagarism percentage (%):
+              </span><br />
+              <span class="text-sm">{{ itm?.percent }}%</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="text-gray-50 space-y-2">
-        <p class="font-bold text-gray-900">Overall Plagarism percentage:</p>
-        <p>{{ plagReport?.plagPercent }}%</p>
-      </div>
-      <div class="text-gray-50 space-y-2">
-        <p class="font-bold text-gray-900">Uniqueness:</p>
-        <p>{{ plagReport?.uniquePercent }}%</p>
-      </div>
-      <div class="flex justify-end items-end">
-        <nuxt-link
-          to="/dashboard/history"
-          class="font-medium bg-black text-white px-3 py-2 text-sm"
-          >View history</nuxt-link
-        >
+        <div class="text-gray-80 space-y-1">
+          <span class="font-bold text-gray-900">Overall Plagarism percentage:</span><br />
+          <span class="text-sm">{{ plagReport?.plagPercent }}%</span>
+        </div>
+        <div class="text-gray-800 space-y-1">
+          <span class="font-bold text-gray-900">Uniqueness:</span><br />
+          <span class="text-sm">{{ plagReport?.uniquePercent }}%</span>
+        </div>
+        <div class="flex justify-end items-end">
+          <nuxt-link
+            to="/dashboard/history"
+            class="font-medium bg-black text-white px-3 py-2 text-sm no-underline"
+            >View history</nuxt-link
+          >
+        </div>
       </div>
     </div>
   </main>
@@ -128,6 +142,11 @@
 <script>
 export default {
   layout: "dashboard",
+  mounted() {
+    if (!localStorage.getItem("user")) {
+      this.$router.push("/login");
+    }
+  },
   data() {
     return {
       processing: false,
@@ -141,8 +160,8 @@ export default {
     };
   },
   computed: {
-    isFormEmpty() {
-      return !!(this.form.author && this.form.body && this.form.title);
+    isFormFilled() {
+      return !!(this.form?.author && this.form?.body && this.form?.title);
     },
   },
   methods: {
@@ -172,8 +191,9 @@ export default {
           this.$toastr.s("Plagarism was successfully checked");
         })
         .catch((error) => {
+          console.log(error.response, 'error ere')
           if (error.response) {
-            this.$toastr.error(error.response.data.errorMessage);
+            this.$toastr.error(error?.response?.data?.errorMessage);
             this.processing = false;
           } else if (error.request) {
             this.processing = false;
@@ -189,5 +209,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

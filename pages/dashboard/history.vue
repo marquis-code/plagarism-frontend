@@ -8,11 +8,16 @@
             Plagiarism History
           </h2>
         </div>
-        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+        <div
+          class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto lg:h-[800px] overflow-y-auto"
+        >
           <div
             class="inline-block min-w-full shadow rounded-lg overflow-hidden"
           >
-            <table class="min-w-full leading-normal" v-if="!loading && history.length">
+            <table
+              class="min-w-full leading-normal"
+              v-if="!loading && history.length"
+            >
               <thead>
                 <tr>
                   <th
@@ -72,7 +77,9 @@
                       v-for="(item, index) in itm.sources"
                       :key="index"
                     >
-                      <a :href="item.link">{{ item.link }}</a>
+                      <p class="max-w-sm">
+                        <a :href="item.link" class="">{{ item.link }}</a>
+                      </p>
                       <p class="font-medium">{{ item.percent }}%</p>
                     </div>
                   </td>
@@ -82,7 +89,10 @@
             <div v-if="loading" class="mt-10 p-6 bg-gray-900">
               <loader-spinner class="w-full" />
             </div>
-            <div class="flex justify-center items-center" v-if="!loading && !history.length">
+            <div
+              class="flex justify-center items-center"
+              v-if="!loading && !history.length"
+            >
               <p class="font-bold text-lg">No report available</p>
             </div>
           </div>
@@ -102,13 +112,18 @@ export default {
     };
   },
   mounted() {
-    this.loadHistory();
+    if (!localStorage.getItem("user")) {
+      this.$router.push("/login");
+      return;
+    } else {
+      this.loadHistory();
+    }
   },
   methods: {
     loadHistory() {
       this.loading = true;
-      const token = JSON.parse(localStorage.getItem("user")).token;
-      const matric = JSON.parse(localStorage.getItem("user")).user.matric;
+      const token = JSON.parse(localStorage.getItem("user"))?.token;
+      const matric = JSON.parse(localStorage.getItem("user"))?.user?.matric;
       const encoded = btoa(matric);
       const config = {
         headers: {

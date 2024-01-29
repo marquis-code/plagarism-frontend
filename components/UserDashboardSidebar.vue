@@ -121,32 +121,71 @@
           />
         </svg>
       </a>
+      <div>
+        <button class="" @click="handleLogout">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="27"
+            height="27"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#d0021b"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div
-      class="h-screen py-8 overflow-y-auto border-l border-r sm:w-72 w-60 dark:bg-gray-900 dark:border-gray-700 bg-gray-700"
+      class="h-screen py-8 overflow-y-auto border-l border-r sm:w-72 w-60 dark:bg-gray-900 dark:border-gray-700 bg-gray-700 w-full"
     >
       <h2 class="px-5 text-lg font-medium text-gray-800 dark:text-white">
         Activities
       </h2>
-      <div class="mt-8 space-y-4 p-3">
+      <div class="mt-8 space-y-4 p-3 w-full">
         <nuxt-link
           v-for="(itm, idx) in urlData"
           :key="idx"
           :to="itm.url"
           :class="[$route.fullPath == itm.url ? 'bg-green-600' : 'bg-gray-700']"
-          class="flex items-center w-full px-5 py-2 no-underline transition-colors text-white duration-200 gap-x-2 focus:outline-none"
+          class="flex items-center w-full px-5 py-3 no-underline transition-colors text-white duration-200 gap-x-2 focus:outline-none"
         >
-          <div class="text-left rtl:text-right">
+          <div class="text-sm">
             {{ itm.name }}
           </div>
         </nuxt-link>
       </div>
+      <!-- <div>
+        <button class="" @click="handleLogout">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
+            />
+          </svg>
+        </button>
+      </div> -->
     </div>
   </aside>
 </template>
 
 <script>
+import Swal from "sweetalert2/dist/sweetalert2.js";
 export default {
   data() {
     return {
@@ -168,6 +207,26 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    handleLogout() {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, logout!",
+      }).then((result) => {
+        if (result.value) {
+          localStorage.removeItem("user");
+          this.$router.push("/");
+        } else {
+          this.$swal("Cancelled", "You're still logged in!", "info");
+        }
+      });
+    },
   },
 };
 </script>

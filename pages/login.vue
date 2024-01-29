@@ -29,7 +29,7 @@
           <h2
             class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl"
           >
-            Welcome to Plagiarism checker
+            Welcome to Plagvic.io
           </h2>
 
           <p class="mt-4 leading-relaxed text-gray-600 font-semibold">
@@ -66,7 +66,7 @@
             <h1
               class="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
             >
-              Welcome to Plagiarism checker
+              Welcome to Plagvic.io
             </h1>
 
             <p class="mt-4 leading-relaxed text-gray-600 font-semibold">
@@ -94,11 +94,18 @@
               <input
                 id="matric"
                 v-model="form.matric"
-                @input="validateInput"
-                type="tel"
+                type="text"
                 name="matric"
                 class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
               />
+              <!-- <input
+                id="matric"
+                v-model="form.matric"
+                @input="validateInput"
+                type="text"
+                name="matric"
+                class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
+              /> -->
               <small v-if="!isValid" class="text-red-500 text-sm"
                 >Please enter a valid matric number</small
               >
@@ -115,13 +122,13 @@
               <input
                 id="Password"
                 v-model="form.password"
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 name="password"
                 class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
               />
               <img
-                @click="togglePassword"
-                :src="require(`~/assets/icons/${eye}`)"
+                @click="showPassword = !showPassword"
+                :src="require(`~/assets/icons/${eye}.svg`)"
                 alt=""
                 class="absolute right-6 top-10 h-6 w-6 cursor-pointer"
               />
@@ -156,7 +163,8 @@ export default {
   data() {
     return {
       processing: false,
-      isValid: false,
+      showPassword: false,
+      isValid: true,
       registrationNumberPattern: /^U\d{2}\/[A-Z]+\/[A-Z]+\/\d{3}$/,
       form: {
         matric: "",
@@ -166,19 +174,59 @@ export default {
   },
   computed: {
     isFormEmpty() {
-      return !!(this.form.matric && this.form.password && this.isValid);
+      return !!(this.form.matric && this.form.password);
     },
+    // isFormEmpty() {
+    //   return !!(this.form.matric && this.form.password && this.isValid);
+    // },
     eye() {
-      return this.showPassword ? "eye-open.svg" : "eye-close.svg";
+      return this.showPassword ? "eye-open" : "eye-close";
     },
   },
   methods: {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
+    // handleLogin() {
+    //   this.processing = true;
+    //   if (this.registrationNumberPattern.test(this.form.matric)) {
+    //     let payload = {
+    //       password: this.form.password,
+    //       matric: this.form.matric,
+    //     };
+    //     this.$axios
+    //       .post(
+    //         "https://plagarism-backend.onrender.com/api/auth/login",
+    //         payload
+    //       )
+    //       .then((resp) => {
+    //         console.log(resp.data.data);
+    //         localStorage.setItem("user", `${JSON.stringify(resp?.data?.data)}`);
+    //         this.$toastr.s("Login was successful");
+    //         this.$router.push("/dashboard");
+    //       })
+    //       .catch((error) => {
+    //         if (error.response) {
+    //           console.log(error.response, "ghjk");
+    //           this.$toastr.e(error.response.data.errorMessage);
+    //           this.processing = false;
+    //         } else if (error.request) {
+    //           console.log(error.request);
+    //           this.processing = false;
+    //         } else {
+    //           console.log("Error", error.message);
+    //           this.processing = false;
+    //         }
+    //       })
+    //       .finally(() => {
+    //         this.processing = false;
+    //       });
+    //   } else {
+    //     this.$toastr.e("Please enter a valid matric number");
+    //   }
+    // },
     handleLogin() {
       this.processing = true;
-      if (this.registrationNumberPattern.test(this.form.matric)) {
         let payload = {
           password: this.form.password,
           matric: this.form.matric,
@@ -190,10 +238,7 @@ export default {
           )
           .then((resp) => {
             console.log(resp.data.data);
-            localStorage.setItem(
-              "user",
-              `${JSON.stringify(resp?.data?.data)}`
-            );
+            localStorage.setItem("user", `${JSON.stringify(resp?.data?.data)}`);
             this.$toastr.s("Login was successful");
             this.$router.push("/dashboard");
           })
@@ -213,9 +258,6 @@ export default {
           .finally(() => {
             this.processing = false;
           });
-      } else {
-        this.$toastr.e("Please enter a valid matric number");
-      }
     },
     validateInput() {
       this.isValid = this.registrationNumberPattern.test(this.form.matric);

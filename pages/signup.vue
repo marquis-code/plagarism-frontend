@@ -29,7 +29,7 @@
           <h2
             class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl"
           >
-            Welcome to Plagiarism checker
+            Welcome to Plagvic.io
           </h2>
 
           <p class="mt-4 leading-relaxed text-gray-600 font-semibold">
@@ -66,7 +66,7 @@
             <h1
               class="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
             >
-              Welcome to Plagiarism checker
+              Welcome to Plagvic.io
             </h1>
 
             <p class="mt-4 leading-relaxed text-gray-600 font-semibold">
@@ -109,11 +109,18 @@
                 >Matric Number
               </label>
 
-              <input
+              <!-- <input
                 id="matric"
                 v-model="form.matric"
                 @input="validateInput"
-                type="tel"
+                type="text"
+                name="matric"
+                class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
+              /> -->
+              <input
+                id="matric"
+                v-model="form.matric"
+                type="text"
                 name="matric"
                 class="mt-1 w-full rounded-md border-gray-200 py-3 border outline-none px-3 bg-white text-sm text-gray-700 shadow-sm"
               />
@@ -190,7 +197,7 @@ export default {
     return {
       processing: false,
       showPassword: false,
-      isValid: false,
+      isValid: true,
       registrationNumberPattern: /^U\d{2}\/[A-Z]+\/[A-Z]+\/\d{3}$/,
       form: {
         username: "",
@@ -201,13 +208,20 @@ export default {
     };
   },
   computed: {
+    // isFormEmpty() {
+    //   return !!(
+    //     this.form.username &&
+    //     this.form.matric &&
+    //     this.form.email &&
+    //     this.form.password &&
+    //     this.isValid
+    //   );
     isFormEmpty() {
       return !!(
         this.form.username &&
         this.form.matric &&
         this.form.email &&
-        this.form.password &&
-        this.isValid
+        this.form.password
       );
     },
     eye() {
@@ -220,41 +234,71 @@ export default {
     },
     handleSignup() {
       this.processing = true;
-      if (this.registrationNumberPattern.test(this.form.matric)) {
-        let payload = {
-          username: this.form.username,
-          password: this.form.password,
-          email: this.form.email,
-          matric: this.form.matric,
-        };
-        this.$axios
-          .post(
-            "https://plagarism-backend.onrender.com/api/auth/signup",
-            payload
-          )
-          .then((resp) => {
-            this.$toastr.s("Account was successful created");
-            this.$router.push("/login");
-          })
-          .catch((error) => {
-            if (error.response) {
-              this.$toastr.error(error.response.data.errorMessage);
-              this.processing = false;
-            } else if (error.request) {
-              console.log(error.request);
-              this.processing = false;
-            } else {
-              console.log("Error", error.message);
-              this.processing = false;
-            }
-          })
-          .finally(() => {
+      let payload = {
+        username: this.form.username,
+        password: this.form.password,
+        email: this.form.email,
+        matric: this.form.matric,
+      };
+      this.$axios
+        .post("https://plagarism-backend.onrender.com/api/auth/signup", payload)
+        .then((resp) => {
+          this.$toastr.s("Account was successful created");
+          this.$router.push("/login");
+        })
+        .catch((error) => {
+          if (error.response) {
+            this.$toastr.error(error.response.data.errorMessage);
             this.processing = false;
-          });
-      } else {
-        this.$toastr.e("Please enter a valid matric number");
-      }
+          } else if (error.request) {
+            console.log(error.request);
+            this.processing = false;
+          } else {
+            console.log("Error", error.message);
+            this.processing = false;
+          }
+        })
+        .finally(() => {
+          this.processing = false;
+        });
     },
+    // handleSignup() {
+    //   this.processing = true;
+    //   if (this.registrationNumberPattern.test(this.form.matric)) {
+    //     let payload = {
+    //       username: this.form.username,
+    //       password: this.form.password,
+    //       email: this.form.email,
+    //       matric: this.form.matric,
+    //     };
+    //     this.$axios
+    //       .post(
+    //         "https://plagarism-backend.onrender.com/api/auth/signup",
+    //         payload
+    //       )
+    //       .then((resp) => {
+    //         this.$toastr.s("Account was successful created");
+    //         this.$router.push("/login");
+    //       })
+    //       .catch((error) => {
+    //         if (error.response) {
+    //           this.$toastr.error(error.response.data.errorMessage);
+    //           this.processing = false;
+    //         } else if (error.request) {
+    //           console.log(error.request);
+    //           this.processing = false;
+    //         } else {
+    //           console.log("Error", error.message);
+    //           this.processing = false;
+    //         }
+    //       })
+    //       .finally(() => {
+    //         this.processing = false;
+    //       });
+    //   } else {
+    //     this.$toastr.e("Please enter a valid matric number");
+    //   }
+    // },
     validateInput() {
       this.isValid = this.registrationNumberPattern.test(this.form.matric);
     },

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <section class="overflow-hidden sm:grid sm:grid-cols-2 lg:mt-32">
+    <section class="overflow-hidden sm:grid grid-cols-1 md:grid-cols-2 lg:mt-32">
       <img
         alt="Student"
         src="@/assets/img/check5.jpg"
@@ -40,7 +40,7 @@
         class="h-full w-full object-cover lg:h-[780px] hidden md:block"
       />
     </section>
-    <section class="overflow-hidden sm:grid sm:grid-cols-2 mt-10 lg:mt-32">
+    <section class="overflow-hidden sm:grid grid-cols-1 md:grid-cols-2 mt-10 lg:mt-32">
       <img
         alt="Student"
         src="@/assets/img/check2.jpg"
@@ -49,13 +49,13 @@
       <div class="p-8 md:p-12 lg:px-16 lg:py-24">
         <div class="mx-auto max-w-xl ltr:sm:text-left rtl:sm:text-right">
           <h2 class="text-2xl font-bold text-gray-900 md:text-3xl">
-            Why use a Plagiarism Checker
+            Why use Plagvic.io
           </h2>
 
           <p
             class="hidden text-gray-500 md:mt-4 md:block leading-loose text-justify"
           >
-            In summary, the use of a plagiarism checker is essential for
+            In summary, the use of a Plagvic.io is essential for
             maintaining ethical standards, preventing unintentional plagiarism,
             protecting intellectual property, and ensuring the credibility and
             professionalism of academic and professional work.
@@ -65,7 +65,7 @@
               <span class="font-bold text-gray-900"
                 >Maintaining Academic Integrity:</span
               >
-              Plagiarism checkers help educational institutions uphold academic
+              Plagvic.io helps educational institutions uphold academic
               integrity by ensuring that students submit original work. This
               practice fosters a culture of honesty and fairness in academia.
             </li>
@@ -75,7 +75,7 @@
                 >Preventing Unintentional Plagiarism:</span
               >
               Writers may unintentionally use language or ideas without proper
-              citation. Plagiarism checkers help individuals identify and
+              citation. Plagvic.io help individuals identify and
               rectify unintentional instances of plagiarism by highlighting
               similarities with existing content.
             </li>
@@ -84,7 +84,7 @@
               <span class="font-bold text-gray-900"
                 >Protecting Intellectual Property:</span
               >
-              Plagiarism checkers aid content creators, researchers, and authors
+              Plagvic.io aid content creators, researchers, and authors
               in safeguarding their intellectual property. By identifying
               instances of unauthorized use, creators can take appropriate
               measures to protect their work and reputation.
@@ -102,7 +102,7 @@
         </div>
       </div>
     </section>
-    <section class="overflow-hidden sm:grid sm:grid-cols-2 lg:mt-32">
+    <section class="overflow-hidden sm:grid grid-cols-1 md:grid-cols-2 lg:mt-32">
       <img
         alt="Student"
         src="@/assets/img/check3.jpg"
@@ -111,11 +111,11 @@
       <div class="p-8 md:p-12 lg:px-16 lg:py-24">
         <div class="mx-auto max-w-xl ltr:sm:text-left rtl:sm:text-right">
           <h2 class="text-2xl font-bold text-gray-900 md:text-3xl">
-            How does Plagiarism Checker work
+            How does Plagvic.io
           </h2>
 
           <p class="text-gray-500 md:mt-4 md:block leading-loose text-justify">
-            A plagiarism checker works by analyzing a submitted text and
+            Plagvic.io works by analyzing a submitted text and
             comparing it to a comprehensive database of existing content. The
             tool breaks down the text into segments, searches for similarities
             in structure and language within the database, and generates a

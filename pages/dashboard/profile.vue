@@ -1,5 +1,10 @@
 <template>
-  <body>
+  <body class="bg-gray-900 lg:pl-10 lg:pt-10">
+    <div class="p-3 lg:p-10">
+      <h2 class="text-2xl font-semibold leading-tight text-white">
+        User profile
+      </h2>
+    </div>
     <div class="flex flex-col bg-gray-900 p-3 lg:p-10">
       <div
         v-if="!loading"
@@ -66,7 +71,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="w-6/12 h-60">
+      <div v-else class="w-6/12 h-60 mt-20">
         <loader-spinner />
       </div>
     </div>
@@ -85,8 +90,13 @@ export default {
     };
   },
   mounted() {
-    this.loadProfile();
-    this.loadHistory();
+    if (!localStorage.getItem("user")) {
+      this.$router.push("/login");
+      return;
+    } else {
+      this.loadProfile();
+      this.loadHistory();
+    }
   },
   methods: {
     loadProfile() {

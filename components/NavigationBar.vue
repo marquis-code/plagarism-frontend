@@ -9,7 +9,7 @@
           >
             <span class="sr-only">Home</span>
             <img src="@/assets/icons/logo.svg" alt="" class="h-10 w-10" />
-            Plagarism Checker
+            Plagvic.io
           </nuxt-link>
         </div>
 
@@ -26,48 +26,48 @@
               </li>
 
               <li>
-                <a
+                <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline"
-                  href="/"
+                  to="/login"
                 >
                   Careers
-                </a>
+                </nuxt-link>
               </li>
 
               <li>
-                <a
+                <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline"
-                  href="/"
+                  to="/login"
                 >
                   History
-                </a>
+                </nuxt-link>
               </li>
 
               <li>
-                <a
+                <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline"
-                  href="/"
+                  to="/login"
                 >
                   Services
-                </a>
+                </nuxt-link>
               </li>
 
               <li>
-                <a
+                <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline"
-                  href="/"
+                  to="/login"
                 >
                   Projects
-                </a>
+                </nuxt-link>
               </li>
 
               <li>
-                <a
+                <nuxt-link
                   class="text-gray-500 transition hover:text-gray-500/75 no-underline"
-                  href="/"
+                  to="/login"
                 >
                   Blog
-                </a>
+                </nuxt-link>
               </li>
             </ul>
           </nav>
@@ -76,7 +76,7 @@
         <div class="flex items-center gap-4">
           <div class="hidden sm:flex sm:gap-4" v-if="!isLoggedIn">
             <nuxt-link
-              class="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+              class="rounded-md no-underline bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
               to="/login"
             >
               Login
@@ -84,7 +84,7 @@
 
             <div class="hidden sm:flex">
               <nuxt-link
-                class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                class="rounded-md no-underline bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
                 to="/signup"
               >
                 Register
@@ -132,7 +132,7 @@
             >
               <span class="sr-only">Home</span>
               <img src="@/assets/icons/logo.svg" alt="" class="w-10" />
-              Plagarism Checker
+              Plagvic.io
             </nuxt-link>
             <div @click="hide">
               <svg
@@ -157,7 +157,7 @@
                 class="border rounded-md w-full py-3 pl-4 hover:bg-black hover:text-white"
               >
                 <nuxt-link
-                  class="text-gray-500 transition hover:text-gray-500/75 no-underline font-bold hover:text-white"
+                  class="text-gray-500 transition hover:text-gray-500/75 font-bold hover:text-white no-underline"
                   to="/login"
                 >
                   Projects
@@ -177,7 +177,7 @@
                 class="border rounded-md w-full py-3 pl-4 hover:bg-black hover:text-white"
               >
                 <nuxt-link
-                  class="text-gray-500 transition hover:text-gray-500/75 no-underline font-bold hover:text-white"
+                  class="text-gray-500 transition hover:text-gray-500/75 font-bold hover:text-white no-underline"
                   to="/signup"
                 >
                   Sign up
@@ -188,7 +188,7 @@
                 class="border rounded-md w-full py-3 pl-4 hover:bg-black hover:text-white"
               >
                 <nuxt-link
-                  class="text-gray-500 transition hover:text-gray-500/75 no-underline font-bold hover:text-white"
+                  class="text-gray-500 transition hover:text-gray-500/75 font-bold hover:text-white no-underline"
                   to="/login"
                 >
                   Login
